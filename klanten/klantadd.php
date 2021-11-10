@@ -4,19 +4,28 @@ include '../database/database.php';
 
 $conn = mysqli_connect("localhost", "root", "", "restaurantex");
 
+
+// De Tabel voorbereiden:
+
+
 $table = "<table><tr><th>naam</th><th>telefoon</th><th>email</th></tr>";
-$result = $conn->query("SELECT naam, telefoon, email FROM `klanten` WHERE 1");
+$result = $conn->query("SELECT Naam, Telefoon, Email FROM `klanten` WHERE 1");
 while ($row = $result->fetch_assoc())
 {
     $table .= "<tr>";
-    $table .= "<td>{$row['naam']}</td>";
-    $table .= "<td>{$row['telefoon']}</td>";
-    $table .= "<td>{$row['email']}</td>";
+    $table .= "<td>{$row['Naam']}</td>";
+    $table .= "<td>{$row['Telefoon']}</td>";
+    $table .= "<td>{$row['Email']}</td>";
 
     $table .= "</tr>";
 }
 
 $table .= "</table";
+
+// Einde tabel voorbereiden:
+ 
+
+//dit is de dropdown voor klanten naam
 
 $sql = "SELECT naam FROM klanten";
 
@@ -29,7 +38,10 @@ if ($resultCheck > 0) {
         array_push($namen, $row['naam']);
     }
 }
+//einde dropdown
 
+
+//klanten toevoegen: maakt gebruik van eerste form
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_POST['submit'])) {
     $email = trim(strtolower($_POST['email']));
     $klant = trim(strtolower($_POST['klant']));
@@ -51,6 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_
         $db->insert($sql, $named_placeholder, 'klantadd.php');
 }
 
+//klanten wijzigen: maakt gebruik van tweede form
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit2']) && !empty($_POST['submit2'])) {
 
     $uCode= mb_substr(uniqid(), 8, 13);
@@ -74,6 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit2']) && !empty($
 $db->edit_or_delete($sql, $named_placeholder, 'klantadd.php');
 }
 
+//klanten verwijderen: maakt gebruik van derde form
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit3']) && !empty($_POST['submit3'])) {
 
     $uCode= mb_substr(uniqid(), 8, 13);
@@ -172,5 +186,13 @@ table {
 </style>
 </html>
 <?php 
+
+
+/**
+ * 
+ * De Tabel op het scherm plaatsen:
+ * 
+ */
+
 print $table;
 ?>

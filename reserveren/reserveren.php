@@ -77,6 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_
 
     $klantencode = $db->select($sql2, $named_placeholder2);
 
+    $result3 = $klantencode->fetch(\PDO::FETCH_ASSOC);
 
     $date = date("Y-m-d");
     $sql = "INSERT INTO reserveringen VALUES (:ID, :Tafel, :Datum, :Tijd, :Klant_ID, :Aantal, :Reservering_status, :Datum_toegevoegd, :Aantal_k, :allergien, :Opmerkingen)";
@@ -86,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit']) && !empty($_
             'Tafel'=>$tafel,
             'Datum'=>$datum,
             'Tijd'=>$tijd,
-            'Klant_ID'=>$klantencode, 
+            'Klant_ID'=>$result3, 
             'Aantal'=>$aantal, 
             'Reservering_status'=>$reserveringstatus,
             'Datum_toegevoegd'=>$date,
